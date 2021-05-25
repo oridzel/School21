@@ -48,6 +48,8 @@ void			ft_putnbr_fd(int nb, int fd);
 void			ft_putendl_fd(char *s, int fd);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
+int				ft_strcmp_bonus(char *s1, char *s2);
+
 t_list			*ft_lstnew(void *content);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 void			ft_lstadd_back(t_list **lst, t_list *new);
