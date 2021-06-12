@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include "ft_parser.h"
-#include "ft_printf.h"
+#include "libftprintf.h"
 
 int	ft_printf(const char *stream, ...)
 {

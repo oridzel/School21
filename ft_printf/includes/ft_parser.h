@@ -3,7 +3,7 @@
 
 # include <stdarg.h>
 # include <sys/types.h>
-# include "libft.h"
+# include "./../libft/libft.h"
 
 typedef struct s_number
 {
