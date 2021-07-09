@@ -3,7 +3,9 @@
 
 # include <stdarg.h>
 # include <sys/types.h>
-# include "./../libft/libft.h"
+# include <stdlib.h>
+# include <stdbool.h>
+# include "libft.h"
 
 typedef struct s_number
 {
@@ -14,15 +16,15 @@ typedef struct s_number
 
 typedef struct s_format
 {
-	int			minus;
-	int			zero;
+	bool		minus : 1;
+	bool		zero : 1;
+	bool		space : 1;
+	bool		plus : 1;
+	bool		dot : 1;
 	int			width;
 	int			precision;
 	int			printed_length;
-	int			dot;
 	char		type;
-	int			space;
-	int			plus;
 }	t_format;
 
 int		ft_parser(char *stream, va_list args);

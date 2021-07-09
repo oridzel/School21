@@ -2,7 +2,9 @@
 # define FT_PROCESSOR_H
 
 # include <stdarg.h>
-# include "./../libft/libft.h"
+# include "libft.h"
+# include <stdlib.h>
+# include <stdbool.h>
 # include "ft_parser.h"
 
 void		ft_processor(t_format *format, va_list args);

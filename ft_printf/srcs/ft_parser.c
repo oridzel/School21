@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include "ft_parser.h"
-#include "ft_processor.h"
 
 static t_format	*init_format(void)
 {
@@ -9,15 +7,15 @@ static t_format	*init_format(void)
 	format = malloc(sizeof(t_format));
 	if (format == NULL)
 		return (0);
-	format->minus = 0;
-	format->zero = 0;
+	format->minus = false;
+	format->zero = false;
+	format->space = false;
+	format->plus = false;
+	format->dot = false;
 	format->width = 0;
 	format->precision = 0;
-	format->dot = 0;
 	format->type = '\0';
 	format->printed_length = 0;
-	format->space = 0;
-	format->plus = 0;
 	return (format);
 }
 
@@ -55,9 +53,6 @@ int	ft_parser(char *stream, va_list args)
 			if (!format)
 				return (-1);
 			i = ft_parse_format(stream, format, args, i + 1);
-			if (stream[i])
-				i++;
-			ft_processor(format, args);
 			total_length += format->printed_length;
 			free(format);
 		}

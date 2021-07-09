@@ -1,4 +1,5 @@
 #include "ft_parser.h"
+#include "ft_processor.h"
 
 void	ft_parse_type(char stream, t_format *format)
 {
@@ -12,7 +13,7 @@ int	ft_parse_zero(char *stream, t_format *format, int ind)
 
 	i = 0;
 	ind++;
-	format->zero = 1;
+	format->zero = true;
 	while (stream[ind] == '0')
 		ind++;
 	if (ft_isdigit(stream[ind]))
@@ -27,14 +28,14 @@ int	ft_parse_zero(char *stream, t_format *format, int ind)
 int	ft_parse_space(t_format *format, int i)
 {
 	i++;
-	format->space = 1;
+	format->space = true;
 	return (i);
 }
 
 int	ft_parse_plus(t_format *format, int i)
 {
 	i++;
-	format->plus = 1;
+	format->plus = true;
 	return (i);
 }
 
@@ -58,5 +59,10 @@ int	ft_parse_format(char *stream, t_format *format, va_list args, int i)
 			i = ft_parse_width(stream, format, args, i);
 	}
 	ft_parse_type(stream[i], format);
+	if (format->dot)
+		format->zero = false;
+	ft_processor(format, args);
+	if (stream[i] != '\0')
+		i++;
 	return (i);
 }

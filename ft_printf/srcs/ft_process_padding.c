@@ -2,7 +2,7 @@
 
 char	ft_padding_char(t_format *format)
 {
-	if (format->zero == 0)
+	if (!format->zero)
 		return (' ');
 	else
 		return ('0');
@@ -37,7 +37,7 @@ int	ft_padding_left(t_format *format, char c, unsigned int size)
 	int	i;
 
 	i = 0;
-	if (format->minus == 0)
+	if (!format->minus)
 		i = ft_padding_auto(c, format->width, size);
 	return (i);
 }
@@ -47,7 +47,7 @@ int	ft_padding_right(t_format *format, char c, unsigned int size)
 	int	i;
 
 	i = 0;
-	if (format->minus != 0)
+	if (format->minus)
 		i = ft_padding_auto(c, format->width, size);
 	return (i);
 }

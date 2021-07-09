@@ -10,11 +10,11 @@ int	ft_process_chr(t_format *format, char c)
 	i = 0;
 	if (format->width > len)
 		len = format->width;
-	if (format->minus == 0)
+	if (!format->minus)
 		i += ft_padding(len, 1, ft_padding_char(format));
 	ft_putchar_fd(c, 1);
 	i++;
-	if (format->minus == 1)
+	if (format->minus)
 		i += ft_padding(len, 1, ' ');
 	return (i);
 }
@@ -28,12 +28,12 @@ int	ft_process_str(t_format *format, char *str)
 	len = 0;
 	if (str == NULL)
 		str = "(null)";
-	if (format->dot == 1 && format->precision == 0)
+	if (format->dot && format->precision == 0)
 		return (ft_padding(format->width, 0, ' '));
 	else
 	{
 		len = ft_strlen(str);
-		if (format->dot == 1 && format->precision < len)
+		if (format->dot && format->precision < len)
 			len = format->precision;
 		i += ft_padding_left(format, ' ', len);
 		ft_putstr(str, len, 1);
