@@ -6,7 +6,7 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 12:05:49 by szeratul          #+#    #+#             */
-/*   Updated: 2021/08/26 12:05:50 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/09/01 12:09:08 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ char	**free_paths(char **words)
 		i++;
 	}
 	free(words);
+	return (NULL);
+}
+
+char	*free_temp(char *tofree)
+{
+	free(tofree);
 	return (NULL);
 }
 

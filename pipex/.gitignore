@@ -1,6 +1,6 @@
 *.obj/
-.DS_Store
 libpipex.a
 pipex
+.DS_Store
 infile
 outfile

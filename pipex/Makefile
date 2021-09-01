@@ -17,7 +17,7 @@ $(NAME): $(O_FILES)
 	@printf "Creating archive $(NAME)\n"
 	@ar rcs $(NAME) $?
 	@printf "Creating binary\n"
-	@$(CC) $(CFLAGS) -o pipex $(O_FILES) -L. -lpipex
+	@$(CC) $(CFLAGS) -o pipex $(O_FILES) -L. -lpipex -fsanitize=address
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(H_FILES)
 	@mkdir -p $(OBJ_DIR)
