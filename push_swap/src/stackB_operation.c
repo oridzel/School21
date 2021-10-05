@@ -6,42 +6,42 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 14:02:21 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/04 14:40:50 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/05 08:47:13 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	processFoundInB(t_sortstate **state, t_stack **a, t_stack **b,
+static void	process_found_in_b(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
-	while ((*state)->sizeB > 0 && (*b)->value == (*state)->next)
+	while ((*state)->size_b > 0 && (*b)->value == (*state)->next)
 	{
 		push(b, a, actions, 'a');
-		(*state)->sizeB--;
-		nextFound(state, a, actions);
+		(*state)->size_b--;
+		next_found(state, a, actions);
 	}
 	if ((*a)->value == (*state)->next)
-		nextFound(state, a, actions);
+		next_found(state, a, actions);
 }
 
-void	medianProcess(t_sortstate **state, t_stack **a, t_stack **b,
+void	median_process(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
 	push(b, a, actions, 'a');
 	(*a)->flag = (*state)->flag;
 	if ((*a)->value == (*state)->next)
-		nextFound(state, a, actions);
+		next_found(state, a, actions);
 }
 
-void	pushFromB(t_sortstate **state, t_stack **a, t_stack **b,
+void	push_from_b(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
 	push(b, a, actions, 'a');
-	nextFound(state, a, actions);
+	next_found(state, a, actions);
 }
 
-void	rotateB(t_sortstate **state, t_stack **a, t_stack **b,
+void	rotate_b(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
 	int	i;
@@ -49,41 +49,41 @@ void	rotateB(t_sortstate **state, t_stack **a, t_stack **b,
 
 	i = 0;
 	n = 0;
-	while (i++ < (*state)->sizeB && n < (*state)->sizeB)
+	while (i++ < (*state)->size_b && n < (*state)->size_b)
 	{
 		if ((*b)->value >= (*state)->median)
 		{
 			n++;
-			medianProcess(state, a, b, actions);
+			median_process(state, a, b, actions);
 		}
 		else
 			rotate(b, actions, 'b');
-		if (n < (*state)->sizeB && (*b)->value == (*state)->next && \
-		((*a)->previous->sorted || (*state)->numSorted == 0))
+		if (n < (*state)->size_b && (*b)->value == (*state)->next && \
+		((*a)->previous->sorted || (*state)->num_sorted == 0))
 		{
-			while (n < (*state)->sizeB && (*b)->value == (*state)->next)
+			while (n < (*state)->size_b && (*b)->value == (*state)->next)
 			{
 				n++;
-				pushFromB(state, a, b, actions);
+				push_from_b(state, a, b, actions);
 			}
 		}
 	}
-	(*state)->sizeB -= n;
+	(*state)->size_b -= n;
 }
 
-void	manipulateB(t_sortstate **state, t_stack **a, t_stack **b,
+void	manipulate_b(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
-	while ((*state)->sizeB > 0)
+	while ((*state)->size_b > 0)
 	{
-		(*state)->currentMax = (*state)->median;
-		(*state)->median = ((*state)->currentMax - (*state)->next) / 2
+		(*state)->current_max = (*state)->median;
+		(*state)->median = ((*state)->current_max - (*state)->next) / 2
 			+ (*state)->next;
 		if ((*b)->value == (*state)->next && \
-		((*a)->previous->sorted || (*state)->numSorted == 0))
-			processFoundInB(state, a, b, actions);
-		rotateB(state, a, b, actions);
+		((*a)->previous->sorted || (*state)->num_sorted == 0))
+			process_found_in_b(state, a, b, actions);
+		rotate_b(state, a, b, actions);
 		(*state)->flag++;
 	}
-	(*state)->currentMax = (*state)->max;
+	(*state)->current_max = (*state)->max;
 }

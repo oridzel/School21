@@ -6,7 +6,7 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:52:45 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/04 12:53:26 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/05 08:47:34 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	add_action_back(t_actions **lst, char *action)
 	tmp->next = create_new_action(action);
 }
 
-void	printActions(t_actions *actions)
+void	print_actions(t_actions *actions)
 {
 	t_actions	*temp;
 	int			count;
@@ -56,28 +56,28 @@ void	printActions(t_actions *actions)
 	}
 }
 
-t_stack	*createNewElement(long value)
+t_stack	*create_new_element(int value)
 {
-	t_stack	*newElement;
+	t_stack	*new;
 
-	newElement = malloc(sizeof(t_stack));
-	if (newElement != NULL)
+	new = malloc(sizeof(t_stack));
+	if (new != NULL)
 	{
-		newElement->next = newElement;
-		newElement->previous = newElement;
-		newElement->value = value;
-		newElement->flag = 0;
-		newElement->sorted = false;
+		new->next = new;
+		new->previous = new;
+		new->value = value;
+		new->flag = 0;
+		new->sorted = false;
 	}
-	return (newElement);
+	return (new);
 }
 
-void	insert(t_stack **stack, long value, bool push_front)
+void	insert(t_stack **stack, int value, bool push_front)
 {
 	t_stack	*new;
 	t_stack	*last;
 
-	new = createNewElement(value);
+	new = create_new_element(value);
 	if (*stack == NULL)
 	{
 		*stack = new;

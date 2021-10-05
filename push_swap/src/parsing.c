@@ -6,13 +6,13 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 18:09:19 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/04 13:03:37 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/05 08:45:02 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	isNotNumericInput(char *str)
+static int	is_not_numeric_input(char *str)
 {
 	int	c;
 
@@ -28,7 +28,7 @@ static int	isNotNumericInput(char *str)
 	return (0);
 }
 
-static int	duplicateCheck(long arr[], long value, int index)
+static int	duplicate_check(int arr[], int value, int index)
 {
 	int	i;
 
@@ -42,37 +42,38 @@ static int	duplicateCheck(long arr[], long value, int index)
 	return (0);
 }
 
-static int	checkInput(char *str, long arr[], int index)
+static int	check_input(char *str, int arr[], int index)
 {
-	return (isNotNumericInput(str) || duplicateCheck(arr,
-			ft_atoi(str), index - 1) || ft_atoi(str) > INT_MAX);
+	return (is_not_numeric_input(str) || \
+	duplicate_check(arr, ft_atoi(str), index - 1) || \
+	ft_atoi(str) > INT_MAX || ft_atoi(str) < INT_MIN);
 }
 
-t_stack	*parse_input(int argc, char **argv, long arr[])
+t_stack	*parse_input(int argc, char **argv, int arr[])
 {
 	int		i;
-	t_stack	*stackA;
+	t_stack	*a;
 	t_index	*ind;
 
 	ind = malloc(sizeof(t_index));
 	i = 0;
-	stackA = NULL;
+	a = NULL;
 	if (argc > 2)
 	{
 		while (++i < argc)
 		{
-			if (checkInput(argv[i], arr, i))
+			if (check_input(argv[i], arr, i))
 			{
 				ft_putstr_fd("Error\n", STDERR_FILENO);
 				exit(EXIT_FAILURE);
 			}
 			arr[i - 1] = ft_atoi(argv[i]);
-			insert(&stackA, (long)arr[i - 1], false);
+			insert(&a, arr[i - 1], false);
 		}
 		ind->l = 0;
 		ind->r = argc - 2;
-		mergeSort(arr, ind);
+		merge_sort(arr, ind);
 		free(ind);
 	}
-	return (stackA);
+	return (a);
 }

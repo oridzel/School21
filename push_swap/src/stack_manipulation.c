@@ -6,13 +6,13 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 17:47:13 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/03 17:48:54 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/04 19:09:39 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_stack *stack, t_actions **actions, char whichStack)
+void	swap(t_stack *stack, t_actions **actions, char which_stack)
 {
 	long	temp;
 
@@ -22,42 +22,41 @@ void	swap(t_stack *stack, t_actions **actions, char whichStack)
 		stack->value = stack->next->value;
 		stack->next->value = temp;
 	}
-	if (whichStack == 'a')
+	if (which_stack == 'a')
 		add_action_back(actions, "sa");
-	else if (whichStack == 'b')
+	else if (which_stack == 'b')
 		add_action_back(actions, "sb");
 }
 
-void	rotate(t_stack **stack, t_actions **actions, char whichStack)
+void	rotate(t_stack **stack, t_actions **actions, char which_stack)
 {
 	if (*stack != NULL)
 		*stack = (*stack)->next;
-	if (whichStack == 'a')
+	if (which_stack == 'a')
 		add_action_back(actions, "ra");
-	else if (whichStack == 'b')
+	else if (which_stack == 'b')
 		add_action_back(actions, "rb");
 }
 
-void	reverse_rotate(t_stack **stack, t_actions **actions, char whichStack)
+void	reverse_rotate(t_stack **stack, t_actions **actions, char which_stack)
 {
 	if (*stack != NULL)
 		*stack = (*stack)->previous;
-	if (whichStack == 'a')
+	if (which_stack == 'a')
 		add_action_back(actions, "rra");
-	else if (whichStack == 'b')
+	else if (which_stack == 'b')
 		add_action_back(actions, "rrb");
 }
 
-void	push(t_stack **stackA, t_stack **stackB, t_actions **actions,
-			char whichStack)
+void	push(t_stack **a, t_stack **b, t_actions **actions, char which_stack)
 {
-	if (*stackA == NULL)
+	if (*a == NULL)
 		return ;
-	insert(stackB, (*stackA)->value, true);
-	pop(stackA);
-	if (whichStack == 'a')
+	insert(b, (*a)->value, true);
+	pop(a);
+	if (which_stack == 'a')
 		add_action_back(actions, "pa");
-	else if (whichStack == 'b')
+	else if (which_stack == 'b')
 		add_action_back(actions, "pb");
 }
 

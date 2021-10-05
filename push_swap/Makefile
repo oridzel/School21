@@ -20,7 +20,6 @@ O_FILES			=	$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(C_FILES))
 all: $(BIN)
 
 $(BIN): libft $(LIB)
-	@printf "Creating binary $(BIN)\n"
 	@$(CC) $(CFLAGS) -o $@ $(O_FILES) -L. -lpushswap -fsanitize=address
 
 $(LIB): $(O_FILES) $(LIBFT_DIR)/$(LIBFT_NAME)

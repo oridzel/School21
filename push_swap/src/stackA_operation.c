@@ -6,32 +6,32 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 13:22:32 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/04 14:02:43 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/05 08:45:59 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	nextFound(t_sortstate **state, t_stack **a, t_actions **actions)
+void	next_found(t_sortstate **state, t_stack **a, t_actions **actions)
 {
 	(*a)->sorted = true;
 	rotate(a, actions, 'a');
-	(*state)->numSorted++;
-	(*state)->next = (*state)->sortedArray[(*state)->numSorted];
+	(*state)->num_sorted++;
+	(*state)->next = (*state)->sorted_array[(*state)->num_sorted];
 }
 
-static void	rotateA(t_sortstate **state, t_stack **a, t_stack **b,
+static void	rotate_a(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
-	int	sizeA;
+	int	size_a;
 
-	sizeA = (*state)->size - (*state)->numSorted;
-	while (sizeA > 0)
+	size_a = (*state)->size - (*state)->num_sorted;
+	while (size_a > 0)
 	{
 		if ((*a)->value <= (*state)->median)
 		{
 			push(a, b, actions, 'b');
-			(*state)->sizeB++;
+			(*state)->size_b++;
 		}
 		else
 			rotate(a, actions, 'a');
@@ -39,15 +39,15 @@ static void	rotateA(t_sortstate **state, t_stack **a, t_stack **b,
 		{
 			while ((*a)->value == (*state)->next)
 			{
-				nextFound(state, a, actions);
-				sizeA--;
+				next_found(state, a, actions);
+				size_a--;
 			}
 		}
-		sizeA--;
+		size_a--;
 	}
 }
 
-void	manipulateA(t_sortstate **state, t_stack **a, t_stack **b,
+void	manipulate_a(t_sortstate **state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
 	int	flag;
@@ -58,14 +58,14 @@ void	manipulateA(t_sortstate **state, t_stack **a, t_stack **b,
 		while ((*a)->flag == flag)
 		{
 			push(a, b, actions, 'b');
-			(*state)->sizeB++;
+			(*state)->size_b++;
 			if ((*a)->value == (*state)->next && (*a)->previous->sorted)
-				nextFound(state, a, actions);
+				next_found(state, a, actions);
 		}
 	}
 	else
 	{
-		rotateA(state, a, b, actions);
+		rotate_a(state, a, b, actions);
 		if ((*a)->sorted && !(*a)->previous->sorted)
 		{
 			while ((*a)->sorted || !((*a)->previous->sorted))

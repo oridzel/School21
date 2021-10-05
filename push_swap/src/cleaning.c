@@ -6,13 +6,13 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 17:52:44 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/04 16:09:48 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/05 08:43:48 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	freeStack(t_stack **stack)
+static void	free_stack(t_stack **stack)
 {
 	t_stack	*temp;
 
@@ -28,7 +28,7 @@ static void	freeStack(t_stack **stack)
 	*stack = NULL;
 }
 
-static void	freeActions(t_actions **actions)
+static void	free_actions(t_actions **actions)
 {
 	t_actions	*temp;
 
@@ -43,11 +43,11 @@ static void	freeActions(t_actions **actions)
 	*actions = NULL;
 }
 
-void	freeAll(t_sortstate *state, t_stack **a, t_stack **b,
+void	free_all(t_sortstate *state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
-	freeActions(actions);
-	freeStack(a);
-	freeStack(b);
+	free_actions(actions);
+	free_stack(a);
+	free_stack(b);
 	free(state);
 }

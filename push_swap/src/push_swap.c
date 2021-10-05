@@ -6,13 +6,13 @@
 /*   By: szeratul <szeratul@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 08:11:01 by szeratul          #+#    #+#             */
-/*   Updated: 2021/10/04 17:32:00 by szeratul         ###   ########.fr       */
+/*   Updated: 2021/10/05 08:47:58 by szeratul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	threeSort(t_stack **stack, t_actions **actions)
+static void	three_sort(t_stack **stack, t_actions **actions)
 {
 	if ((*stack)->value < (*stack)->next->value && \
 	(*stack)->value < (*stack)->previous->value)
@@ -41,97 +41,106 @@ static void	threeSort(t_stack **stack, t_actions **actions)
 	}
 }
 
-static void	findPosition(t_sortstate *state, t_stack **a, t_stack **b, t_actions **actions)
-{
-	int	i;
-
-	i = 0;
-	while (i++ < state->size)
-	{
-		rotate(a, actions, 'a');
-		if (*b && (*b)->value < (*a)->value)
-			push(b, a, actions, 'a');
-	}
-}
-
-static void	fiveSort(t_sortstate *state, t_stack **a, t_stack **b,
+static void	find_min_max(t_sortstate *state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
 	int	i;
 
 	i = 0;
-	while (i++ < state->size - 3)
-		push(a, b, actions, 'b');
-	threeSort(a, actions);
-	i = 0;
-	while (i++ < state->size - 3)
+	while (i != 2)
 	{
-		if ((*b)->value < (*a)->value)
-			push(b, a, actions, 'a');
-		else if ((*b)->value > (*a)->previous->value)
+		if ((*a)->value == *(state->sorted_array))
 		{
-			push(b, a, actions, 'a');
-			rotate(a, actions, 'a');
+			push(a, b, actions, 'b');
+			i++;
+		}
+		else if ((*a)->value == *(state->sorted_array + state->size - 1))
+		{
+			push(a, b, actions, 'b');
+			i++;
 		}
 		else
-			findPosition(state, a, b, actions);
+			rotate(a, actions, 'a');
+		if (state->size == 4 && i == 1)
+			break ;
 	}
 }
 
-static void	fullSort(t_sortstate **state, t_stack **a, t_stack **b,
+static void	five_sort(t_sortstate *state, t_stack **a, t_stack **b,
 		t_actions **actions)
 {
 	int	i;
 
 	i = 0;
-	while ((*state)->numSorted < (*state)->size)
+	if (state->size == 2)
+	{
+		swap(*a, actions, 'a');
+		return ;
+	}
+	find_min_max(state, a, b, actions);
+	three_sort(a, actions);
+	while (i++ < state->size - 3)
+	{
+		push(b, a, actions, 'a');
+		if ((*a)->value > (*a)->previous->value)
+			rotate(a, actions, 'a');
+	}
+}
+
+static void	full_sort(t_sortstate **state, t_stack **a, t_stack **b,
+		t_actions **actions)
+{
+	int	i;
+
+	i = 0;
+	while ((*state)->num_sorted < (*state)->size)
 	{
 		(*state)->flag++;
 		while ((*a)->value == (*state)->next)
-			nextFound(state, a, actions);
-		if (is_sorted(*a, (*state)->sortedArray, (*state)->size))
+			next_found(state, a, actions);
+		if (is_sorted(*a, (*state)->sorted_array, (*state)->size))
 			return ;
-		if ((*state)->numSorted > 0 && (*a)->sorted)
+		if ((*state)->num_sorted > 0 && (*a)->sorted)
 			while ((*a)->sorted || !((*a)->previous->sorted))
 				reverse_rotate(a, actions, 'a');
 		if (i % 2 == 0)
 		{
 			if (i > 0)
-				(*state)->median = ((*state)->currentMax - (*state)->next) / 2
+				(*state)->median = ((*state)->current_max - (*state)->next) / 2
 					+ (*state)->next;
-			manipulateA(state, a, b, actions);
+			manipulate_a(state, a, b, actions);
 		}
 		else
-			manipulateB(state, a, b, actions);
+			manipulate_b(state, a, b, actions);
 		i++;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_stack		*stackA;
-	t_stack		*stackB;
+	t_stack		*a;
+	t_stack		*b;
 	t_sortstate	*state;
 	t_actions	*actions;
-	long		*arr;
+	int			*arr;
 
 	if (argc == 1 || argc == 2)
 		exit(EXIT_FAILURE);
-	stackA = NULL;
+	a = NULL;
 	state = NULL;
-	arr = malloc(sizeof(long) * (argc - 1));
+	arr = malloc(sizeof(int) * (argc - 1));
 	if (arr)
-		stackA = parse_input(argc, argv, arr);
-	if (is_sorted(stackA, arr, argc - 1))
+		a = parse_input(argc, argv, arr);
+	if (is_sorted(a, arr, argc - 1))
 		exit(EXIT_SUCCESS);
 	state = init_sortstate(&arr[0], argc);
 	if (argc - 1 == 3)
-		threeSort(&stackA, &actions);
+		three_sort(&a, &actions);
 	else if (argc - 1 <= 5)
-		fiveSort(state, &stackA, &stackB, &actions);
+		five_sort(state, &a, &b, &actions);
 	else
-		fullSort(&state, &stackA, &stackB, &actions);
-	printActions(actions);
-	freeAll(state, &stackA, &stackB, &actions);
+		full_sort(&state, &a, &b, &actions);
+	print_actions(actions);
+	free_all(state, &a, &b, &actions);
 	return (0);
 }
